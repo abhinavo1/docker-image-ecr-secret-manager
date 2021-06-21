@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+    secrets-manager:
+     DOCKER_HUB_USERNAME: DOCKER_HUB:USERNAME
+     DOCKER_HUB_PASSWORD: DOCKER_HUB:PASSWORD
 
 phases:
   pre_build:
@@ -15,6 +19,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
+      - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
